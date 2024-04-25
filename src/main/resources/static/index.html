@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OverBook</title>
+</head>
+<body>
+<div>
+    <input type="text" id="search" placeholder="请输入搜索关键词">
+    <ul id="suggestion-list"></ul>
+</div>
+<script>
+    const searchInput = document.getElementById('search');
+    const suggestionList = document.getElementById('suggestion-list');
+    let suggestionData = [];
+    // 保存联想词搜索结果的数组
+    // 监听搜索框的输入事件
+    searchInput.addEventListener('input', debounce(handleInput, 100));     // 处理搜索框输入事件
+    function handleInput() {
+        const keyword = searchInput.value.trim(); // 获取搜索关键词
+        if (keyword === '') {        // 如果搜索关键词为空，则清空联想词搜索结果
+            suggestionData = [];
+            renderSuggestionList();
+            return;
+        }
+        console.log(keyword);
+        // 发送 Ajax 请求获取联想词搜索结果
+        // fetch(`http://192.168.5.213:8081/query?key=`+keyword)
+        fetch(`http://192.168.5.213:8081/book`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                suggestionData = data.map((e) => e.title).filter((n) => n.includes(keyword));
+                // 将请求结果保存到 suggestionData 数组中
+                renderSuggestionList(); // 渲染联想词搜索结果列表
+
+            })
+            // .then(response => {
+            //     if (!response.ok) {
+            //         throw new Error('Network response was not ok');
+            //     }
+            //     return response.json();
+            // })
+            // .then(data => {
+            //     console.log(data); // 输出请求结果到控制台
+            //     // 在这里处理 data...
+            // })
+
+            .catch(error => {
+                console.log("获取失败")
+                console.error(error);
+            });
+    }
+
+    // 渲染联想词搜索结果列表
+    function renderSuggestionList() {
+        suggestionList.innerHTML = ''; // 先清空列表
+        suggestionData.forEach(item => {
+            const li = document.createElement('li');
+            li.innerText = item;
+            suggestionList.appendChild(li);
+        });
+    }
+
+    // debounce 函数，用于防抖
+    function debounce(fn, delay) {
+        let timer = null;
+        return function () {
+            clearTimeout(timer);
+            timer = setTimeout(fn, delay);
+        };
+    }
+</script>
+</body>
+</html>
