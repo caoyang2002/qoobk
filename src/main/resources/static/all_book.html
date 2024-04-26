@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qoobk</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div>
+    <span>
+        <h1>Qoobk 书籍查询</h1>
+
+        </span>
+    <span>
+        <p>反馈</p>
+        <p>开源</p>
+    </span>
+    <!--    <input type="text" id="search" placeholder="请输入书籍关键词">-->
+    <button id="back-button">返回上一页</button>
+    <ul id="suggestion-list"></ul>
+</div>
+<script>
+    const searchInput = document.getElementById('search');
+    const suggestionList = document.getElementById('suggestion-list');
+    let suggestionData = [];
+    // 保存联想词搜索结果的数组
+    // 监听搜索框的输入事件
+    // searchInput.addEventListener('input', debounce(handleInput, 100));     // 处理搜索框输入事件
+    // function handleInput() {
+    //     const keyword = searchInput.value.trim(); // 获取搜索关键词
+    //     if (keyword === '') {        // 如果搜索关键词为空，则清空联想词搜索结果
+    //         suggestionData = [];
+    //         renderSuggestionList();
+    //         return;
+    //     }
+    //     console.log("输入的关键词是: ", keyword);
+    //     // 发送 Ajax 请求获取联想词搜索结果
+    //     // fetch(`http://192.168.5.213:8081/query?key=`+keyword)
+    //     fetch(`http://192.168.5.213:8081/book`)
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             console.log("获取到的数据: ", data);
+    //             // 使用map函数获取所有title
+    //             const titles = data.data.map(item => item.title);
+    //             console.log(titles);
+    //             // 打印出所有title
+    //             titles.forEach(title => console.log("打印每一本书籍名称: ", title));
+    //             suggestionData = data.data.map(item => item.title);
+    //             console.log("含有关键词的书籍: ", suggestionData);
+    //             // 将请求结果保存到 suggestionData 数组中
+    //             renderSuggestionList(); // 渲染联想词搜索结果列表
+    //         })
+    //         .catch(error => {
+    //             console.log("获取失败")
+    //             console.error(error);
+    //         });
+    // }
+
+    // 渲染联想词搜索结果列表
+    function renderSuggestionList() {
+        suggestionList.innerHTML = ''; // 先清空列表
+        suggestionData.forEach(item => {
+            const li = document.createElement('li');
+            li.innerText = item;
+            suggestionList.appendChild(li);
+        });
+    }
+
+    // debounce 函数，用于防抖
+    function debounce(fn, delay) {
+        let timer = null;
+        return function () {
+            clearTimeout(timer);
+            timer = setTimeout(fn, delay);
+        };
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // 页面加载完成后执行的代码
+        fetch(`http://192.168.5.213:8081/book`)
+            .then(response => response.json())
+            .then(data => {
+                console.log("获取到的数据: ", data);
+                // 使用map函数获取所有title
+                const titles = data.data.map(item => item.title);
+                console.log(titles);
+                // 打印出所有title
+                titles.forEach(title => console.log("打印每一本书籍名称: ", title));
+                suggestionData = data.data.map(item => item.title);
+                console.log("含有关键词的书籍: ", suggestionData);
+                // 将请求结果保存到 suggestionData 数组中
+                renderSuggestionList(); // 渲染联想词搜索结果列表
+            })
+            .catch(error => {
+                console.log("获取失败")
+                console.error(error);
+            });
+    });
+
+    // 获取按钮元素
+    const backButton = document.getElementById('back-button');
+
+    // 为按钮添加点击事件监听器
+    backButton.addEventListener('click', function () {
+        // 使用history对象的back方法返回上一个页面
+        history.back();
+    });
+
+</script>
+</body>
+</html>

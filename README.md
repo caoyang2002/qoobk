@@ -12,7 +12,7 @@
 mvn install
 ```
 
-## 2. database
+## 2. create database
 
 ```sql
 CREATE DATABASE qoobk; -- 创建数据库
@@ -39,6 +39,22 @@ INSERT INTO book (title, url) VALUES ('The Great Gatsby', 'http://example.com/th
 SELECT * FROM book WHERE id=1;
 
 ```
+
+
+## 3. update database
+
+get book name
+
+```bash
+python3 main.py
+```
+
+update database
+
+```bash
+python3 insert_database_with_book_info.py
+```
+
 
 # 使用
 

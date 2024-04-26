@@ -1,0 +1,160 @@
+/* 全局样式，使页面内容居中 */
+body, html {
+    height: 100%;
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    background-color: #f7f7f7;
+    font-family: 'Arial', sans-serif;
+
+}
+
+/* 输入框样式 */
+#search {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%; /* 输入框宽度充满容器 */
+    box-sizing: border-box; /* 防止宽度超过容器 */
+    margin-bottom: 10px; /* 添加一些空间，使列表与输入框分隔 */
+}
+
+/* 列表样式 */
+#suggestion-list {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 0;
+    width: 100%; /* 列表宽度充满容器 */
+    list-style: none;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-height: 1000px; /* 设置最大高度，以避免列表过长 */
+    overflow-y: auto; /* 如果列表内容过多，则显示滚动条 */
+}
+
+/* 列表项样式 */
+#suggestion-list li {
+    padding: 8px 12px;
+    border-bottom: 1px solid #eee;
+    text-align: left; /* 使列表项文本左对齐 */
+}
+
+/* 鼠标悬停时列表项的样式 */
+#suggestion-list li:hover {
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+/* 清除列表中最后一个项目的下边框 */
+#suggestion-list li:last-child {
+    border-bottom: none;
+}
+
+
+
+/* 没有搜索到的提示样式 */
+.no-results {
+    display: none;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+/* 当列表为空时显示提示 */
+#suggestion-list:empty + .no-results {
+    display: block;
+}
+
+span {
+    display: inline-block;
+    width: 100%;
+    margin: 10px;
+    text-align: center;
+}
+
+span h1, span p {
+    display: inline-block;
+    margin: 0; /* 移除默认的 margin */
+}
+
+span p {
+    margin-left: 20px; /* 添加一些间距 */
+}
+
+/* 按钮样式 */
+#back-button {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* 添加过渡效果 */
+    margin-top: 20px; /* 添加一些顶部外边距 */
+}
+
+/* 鼠标悬停时的按钮样式 */
+#back-button:hover {
+    background-color: #0056b3;
+}
+
+/* 使按钮居中 */
+button {
+    display: block;
+    margin: 0 auto;
+}
+
+/*浏览按钮*/
+/* 按钮样式 */
+#browse-button {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #28a745; /* 绿色背景 */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* 平滑过渡 */
+    margin-top: 5px; /* 顶部外边距 */
+}
+
+/* 鼠标悬停时的按钮样式 */
+#browse-button:hover {
+    background-color: #218838; /* 深绿色背景 */
+}
+
+.button-container {
+    display: flex; /* 使用flex布局让子元素在一行显示 */
+    justify-content: center; /* 水平居中对齐 */
+    align-items: center; /* 垂直居中对齐 */
+}
+
+button {
+    margin: 0 10px; /* 为按钮添加边距，可以根据需要调整 */
+    padding: 8px 15px; /* 为按钮添加内边距 */
+    border: none; /* 移除默认边框 */
+    border-radius: 4px; /* 为按钮添加圆角 */
+    background-color: #007bff; /* 为按钮添加背景颜色 */
+    color: white; /* 设置按钮文字颜色 */
+    font-size: 16px; /* 设置按钮文字大小 */
+    cursor: pointer; /* 鼠标悬停时显示指针 */
+    transition: background-color 0.3s ease; /* 为按钮添加渐变效果 */
+}
+
+button:hover {
+    background-color: #0056b3; /* 鼠标悬停时改变按钮背景颜色 */
+}
+
+button:first-child {
+    margin-left: 0; /* 移除第一个按钮的左边距 */
+}
+
+button:last-child {
+    margin-right: 0; /* 移除最后一个按钮的右边距 */
+}
