@@ -158,3 +158,8 @@ button:first-child {
 button:last-child {
     margin-right: 0; /* 移除最后一个按钮的右边距 */
 }
+
+.result-count {
+    margin-top: 10px;
+    font-weight: bold;
+}

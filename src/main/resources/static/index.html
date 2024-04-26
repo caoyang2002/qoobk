@@ -17,6 +17,7 @@
         <button id="opensource">开源</button>
     </span>
     <input type="text" id="search" placeholder="请输入书籍关键词">
+    <div id="result-count" class="result-count"></div>
     <ul id="suggestion-list"></ul>
     <p class="no-results">没有搜索到相关书籍,
         <button id="browse-button">浏览一下</button>
@@ -28,7 +29,7 @@
     let suggestionData = [];
     // 保存联想词搜索结果的数组
     // 监听搜索框的输入事件
-    searchInput.addEventListener('input', debounce(handleInput, 100));     // 处理搜索框输入事件
+    searchInput.addEventListener('input', debounce(handleInput, 1000));     // 处理搜索框输入事件
     function handleInput() {
         const keyword = searchInput.value.trim(); // 获取搜索关键词
         if (keyword === '') {        // 如果搜索关键词为空，则清空联想词搜索结果
@@ -42,14 +43,14 @@
         fetch(`http://192.168.5.213:8081/book`)
             .then(response => response.json())
             .then(data => {
-                console.log("获取到的数据: ", data);
+                // console.log("获取到的数据: ", data);
                 // 使用map函数获取所有title
                 const titles = data.data.map(item => item.title);
-                console.log(titles);
+                // console.log(titles);
                 // 打印出所有title
-                titles.forEach(title => console.log("打印每一本书籍名称: ", title));
+                // titles.forEach(title => console.log("打印每一本书籍名称: ", title));
                 suggestionData = data.data.map(item => item.title).filter((n) => n.includes(keyword));
-                console.log("含有关键词的书籍: ", suggestionData);
+                // console.log("含有关键词的书籍: ", suggestionData);
                 // 将请求结果保存到 suggestionData 数组中
                 renderSuggestionList(); // 渲染联想词搜索结果列表
             })
@@ -67,6 +68,19 @@
             li.innerText = item;
             suggestionList.appendChild(li);
         });
+        document.getElementById('result-count').innerText = ''; // 清空结果数量显示
+        if (suggestionData.length > 0) {
+            suggestionData.forEach(item => {
+                const li = document.createElement('li');
+                li.innerText = item;
+                suggestionList.appendChild(li);
+            });
+            // 显示结果数量
+            document.getElementById('result-count').innerText = `检索到 ${suggestionData.length} 条符合要求的数据`;
+        } else {
+            // 如果没有结果，则提供提示信息
+            document.getElementById('result-count').innerText = '没有检索到相关数据';
+        }
     }
 
     // debounce 函数，用于防抖
@@ -77,6 +91,10 @@
             timer = setTimeout(fn, delay);
         };
     }
+
+
+
+    // 跳转
     function setupButtonNavigation(buttonId, url) {
         const button = document.getElementById(buttonId);
         if (button) {
@@ -105,37 +123,6 @@
     setupButtonNavigation('browse-button', 'all_book.html');
     setupButtonNavigation('feedback', 'https://www.caoyang2002.top/index.php/message.html');
     setupConfirmNavigation('opensource', 'https://github.com/caoyang2002/qoobk');
-
-
-    // // 获取按钮元素
-    // const browseButton = document.getElementById('browse-button');
-    //
-    // // 为按钮添加点击事件监听器
-    // browseButton.addEventListener('click', function () {
-    //     // 使用window.location.href属性导航到新的页面
-    //     window.location.href = 'all_book.html';
-    // });
-    //
-    // // 获取按钮元素
-    // const feedbackButton = document.getElementById('feedback');
-    //
-    // // 为按钮添加点击事件监听器
-    // feedbackButton.addEventListener('click', function () {
-    //     if (confirm('您确定要离开当前页面吗?')) {
-    //         // 使用window.location.href属性导航到新的页面
-    //         window.location.href = 'https://www.caoyang2002.top/index.php/message.html';
-    //     }
-    // });
-    //
-    // // 获取按钮元素
-    // const opensourceButton = document.getElementById('opensource');
-    //
-    // // 为按钮添加点击事件监听器
-    // opensourceButton.addEventListener('click', function () {
-    //     if (confirm('您确定要离开当前页面吗?')) {
-    //         window.location.href = 'https://github.com/caoyang2002/qoobk';
-    //     }
-    // });
 </script>
 </body>
 </html>

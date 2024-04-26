@@ -13,50 +13,19 @@
         <h1>Qoobk 书籍查询</h1>
 
         </span>
-    <span>
-        <p>反馈</p>
-        <p>开源</p>
+    <span class="button-container">
+        <button id="feedback">反馈</button>
+        <button id="opensource">开源</button>
     </span>
-    <!--    <input type="text" id="search" placeholder="请输入书籍关键词">-->
     <button id="back-button">返回上一页</button>
     <ul id="suggestion-list"></ul>
+    <p class="no-results">请稍后...</p>
 </div>
 <script>
     const searchInput = document.getElementById('search');
     const suggestionList = document.getElementById('suggestion-list');
     let suggestionData = [];
-    // 保存联想词搜索结果的数组
-    // 监听搜索框的输入事件
-    // searchInput.addEventListener('input', debounce(handleInput, 100));     // 处理搜索框输入事件
-    // function handleInput() {
-    //     const keyword = searchInput.value.trim(); // 获取搜索关键词
-    //     if (keyword === '') {        // 如果搜索关键词为空，则清空联想词搜索结果
-    //         suggestionData = [];
-    //         renderSuggestionList();
-    //         return;
-    //     }
-    //     console.log("输入的关键词是: ", keyword);
-    //     // 发送 Ajax 请求获取联想词搜索结果
-    //     // fetch(`http://192.168.5.213:8081/query?key=`+keyword)
-    //     fetch(`http://192.168.5.213:8081/book`)
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             console.log("获取到的数据: ", data);
-    //             // 使用map函数获取所有title
-    //             const titles = data.data.map(item => item.title);
-    //             console.log(titles);
-    //             // 打印出所有title
-    //             titles.forEach(title => console.log("打印每一本书籍名称: ", title));
-    //             suggestionData = data.data.map(item => item.title);
-    //             console.log("含有关键词的书籍: ", suggestionData);
-    //             // 将请求结果保存到 suggestionData 数组中
-    //             renderSuggestionList(); // 渲染联想词搜索结果列表
-    //         })
-    //         .catch(error => {
-    //             console.log("获取失败")
-    //             console.error(error);
-    //         });
-    // }
+
 
     // 渲染联想词搜索结果列表
     function renderSuggestionList() {
@@ -82,14 +51,14 @@
         fetch(`http://192.168.5.213:8081/book`)
             .then(response => response.json())
             .then(data => {
-                console.log("获取到的数据: ", data);
+                // console.log("获取到的数据: ", data);
                 // 使用map函数获取所有title
                 const titles = data.data.map(item => item.title);
                 console.log(titles);
                 // 打印出所有title
-                titles.forEach(title => console.log("打印每一本书籍名称: ", title));
+                // titles.forEach(title => console.log("打印每一本书籍名称: ", title));
                 suggestionData = data.data.map(item => item.title);
-                console.log("含有关键词的书籍: ", suggestionData);
+                // console.log("含有关键词的书籍: ", suggestionData);
                 // 将请求结果保存到 suggestionData 数组中
                 renderSuggestionList(); // 渲染联想词搜索结果列表
             })
@@ -108,6 +77,36 @@
         history.back();
     });
 
+
+// 页面跳转
+    function setupButtonNavigation(buttonId, url) {
+        const button = document.getElementById(buttonId);
+        if (button) {
+            button.addEventListener('click', function() {
+                window.location.href = url;
+            });
+        } else {
+            console.warn(`Button with id ${buttonId} not found.`);
+        }
+    }
+
+    function setupConfirmNavigation(buttonId, url) {
+        const button = document.getElementById(buttonId);
+        if (button) {
+            button.addEventListener('click', function() {
+                if (confirm('您确定要离开当前页面吗?')) {
+                    window.location.href = url;
+                }
+            });
+        } else {
+            console.warn(`Button with id ${buttonId} not found.`);
+        }
+    }
+
+    // 使用函数为按钮设置事件监听器
+    setupButtonNavigation('browse-button', 'all_book.html');
+    setupButtonNavigation('feedback', 'https://www.caoyang2002.top/index.php/message.html');
+    setupConfirmNavigation('opensource', 'https://github.com/caoyang2002/qoobk');
 </script>
 </body>
 </html>
